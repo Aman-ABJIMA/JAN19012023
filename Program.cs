@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplicationMVC.Data;
+using WebApplicationMVC.Interface;
+using WebApplicationMVC.Repository;
 
 namespace WebApplicationMVC
 {
@@ -11,6 +13,8 @@ namespace WebApplicationMVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IClubRepository,ClubRepository>();
+            builder.Services.AddScoped<IRaceRepository,RaceRepository>();
             builder.Services.AddDbContext<ApplicationDbContext>(options => 
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
