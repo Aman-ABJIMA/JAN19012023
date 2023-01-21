@@ -2,10 +2,10 @@
 {
     public enum RaceCategory
     {
-        Dravidian,
-        Indo_Aryan,
-        Mongoloid,
-        Aryo_Dravidian,
-        Mongolo_Dravidian
+        Marthon,
+        Releeye,
+        DragRace,
+        LapRace,
+        HalfMarathon
     }
 }

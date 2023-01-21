@@ -7,12 +7,12 @@ namespace WebApplicationMVC.Repository
 {
     public class RaceRepository : IRaceRepository
     {
-        public RaceRepository(ApplicationDbContext context)
+        public RaceRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public readonly ApplicationDbContext _context;
+        public readonly AppDbContext _context;
 
         public bool Add(Race race)
         {
@@ -27,7 +27,8 @@ namespace WebApplicationMVC.Repository
 
         public async Task<IEnumerable<Race>> GetAll()
         {
-            return await _context.Races.ToListAsync();
+            var race = await _context.Races.ToListAsync();
+            return race;
         }
 
         public async Task<IEnumerable<Race>> GetAllRacesByCity(string city)

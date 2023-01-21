@@ -15,9 +15,9 @@ namespace WebApplicationMVC
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IClubRepository,ClubRepository>();
             builder.Services.AddScoped<IRaceRepository,RaceRepository>();
-            builder.Services.AddDbContext<ApplicationDbContext>(options => 
+            builder.Services.AddDbContext<AppDbContext>(options => 
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnections"));
             });  
 
             var app = builder.Build();

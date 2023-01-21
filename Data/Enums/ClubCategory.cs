@@ -2,10 +2,10 @@
 {
     public enum ClubCategory
     {
-        Dancing,
-        Singing,
-        StandUpComedy,
-        Jokes,
-        JMD
+        RoadRunner,
+        Dark,
+        City,
+        Trail,
+        Endurance
     }
 }

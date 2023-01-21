@@ -7,9 +7,9 @@ namespace WebApplicationMVC.Repository
 {
     public class ClubRepository : IClubRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AppDbContext _context;
 
-        public ClubRepository(ApplicationDbContext context) { _context = context; }
+        public ClubRepository(AppDbContext context) { _context = context; }
 
         public bool Add(Club club)
         {

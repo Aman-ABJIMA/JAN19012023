@@ -4,6 +4,7 @@ using WebApplicationMVC.Data;
 using WebApplicationMVC.Data.Enums;
 using WebApplicationMVC.Interface;
 using WebApplicationMVC.Models;
+using WebApplicationMVC.Repository;
 
 namespace WebApplicationMVC.Controllers
 {
@@ -24,6 +25,20 @@ namespace WebApplicationMVC.Controllers
         {
             Race race = await _raceRepository.GetByIdAsync(id);
             return View(race);
+        }
+        public async Task<IActionResult> Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(Race race)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(race);
+            }
+            _raceRepository.Add(race);
+            return RedirectToAction("Index");
         }
     }
 }
