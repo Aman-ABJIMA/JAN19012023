@@ -16,8 +16,8 @@ namespace WebApplicationMVC.Models
         public Address Address { get; set; }
         public ClubCategory ClubCategory { get; set; }
         [ForeignKey("AppUser")]
-        public int AppUserId { get; set; }
-        public AppUser AppUser { get; set; }
+        public int? AppUserId { get; set; }
+        public AppUser? AppUser { get; set; }
 
     }
 }
