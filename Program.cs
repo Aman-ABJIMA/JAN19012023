@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using WebApplicationMVC.Data;
 using WebApplicationMVC.Helpers;
 using WebApplicationMVC.Interface;
+using WebApplicationMVC.Models;
 using WebApplicationMVC.Repository;
 using WebApplicationMVC.Services;
 
@@ -23,7 +25,10 @@ namespace WebApplicationMVC
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });  
-
+           // builder.Services.AddIdentity<AppUser,Role>().AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddMemoryCache();
+            builder.Services.AddSession();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
