@@ -34,6 +34,21 @@ namespace WebApplicationMVC.Controllers
             return View(club);
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            var clubDetails = await _clubRepository.GetByIdAsync(id);
+            if(clubDetails == null) return View("Error");
+            return View(clubDetails);
+        }
+
+        [HttpPost,ActionName("Delete")]
+        public async Task<IActionResult> DeleteClub(int id)
+        {
+            var clubDetails = await _clubRepository.GetByIdAsync(id);
+            if(clubDetails==null)return View("Error");
+            _clubRepository.Delete(clubDetails);
+            return RedirectToAction("Index");
+        }
         public IActionResult Create()
         {
             return View();
@@ -48,13 +63,13 @@ namespace WebApplicationMVC.Controllers
                 {
                     Title = clubVm.Title,
                     Description = clubVm.Description,
+                    ClubCategory=clubVm.ClubCategory,
                     Image = result.Url.ToString(),
                     Address= new Address
                     {
                         Street= clubVm.Address.Street,
                         City = clubVm.Address.City,
                         State = clubVm.Address.State
-
                     }
                 };
                 _clubRepository.Add(club);
