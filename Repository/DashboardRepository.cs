@@ -8,7 +8,6 @@ namespace WebApplicationMVC.Repository
     {
         private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _HttpContextAccessor;
-
         public DashboardRepository(ApplicationDbContext context,IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
@@ -19,15 +18,15 @@ namespace WebApplicationMVC.Repository
 
         public async Task<List<Club>> GetAllUserClubs()
         {
-            var currentUser = _HttpContextAccessor.HttpContext?.User;
-            var userClubs =  _context.Clubs.Where(a => a.AppUser.Id == currentUser.ToString());
+            var currentUser = _HttpContextAccessor.HttpContext?.User.GetUserId();
+            var userClubs =  _context.Clubs.Where(a => a.AppUser.Id == currentUser);
             return userClubs.ToList();
         }
 
         public async Task<List<Race>> GetAllUserRaces()
         {
-            var currentUser = _HttpContextAccessor.HttpContext?.User;
-            var userRaces = _context.Races.Where(a => a.AppUser.Id == currentUser.ToString());
+            var currentUser = _HttpContextAccessor.HttpContext?.User.GetUserId();
+            var userRaces = _context.Races.Where(a => a.AppUser.Id == currentUser);
             return userRaces.ToList();
         }
     }

@@ -10,7 +10,6 @@ namespace WebApplicationMVC.ViewModels
         public string Description { get; set; }
         public IFormFile Image { get; set; }
         public int AddressId { get; set; }
-
         public string Url { get; set; }
         public Address Address { get; set; }
         public ClubCategory ClubCategory { get; set; }

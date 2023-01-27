@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.Xml;
-using WebApplicationMVC.Data;
 using WebApplicationMVC.Interface;
 using WebApplicationMVC.Models;
 using WebApplicationMVC.ViewModels;
@@ -13,14 +10,14 @@ namespace WebApplicationMVC.Controllers
     {
         private readonly IClubRepository _clubRepository; //It provides data from data base
         private readonly IPhotoService _photoService;
-
+        private readonly IHttpContextAccessor _contextAccessor;
         //  private readonly IClubRepository _clubRepository;
 
-        public ClubController(IClubRepository clubRepository, IPhotoService photoService)
+        public ClubController(IClubRepository clubRepository, IPhotoService photoService, IHttpContextAccessor contextAccessor)
         {
             _clubRepository = clubRepository;
-            // _clubRepository = clubRepository;
             _photoService = photoService;
+            _contextAccessor = contextAccessor;
         }
 
         public async Task<IActionResult> Index()//c
@@ -37,21 +34,26 @@ namespace WebApplicationMVC.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var clubDetails = await _clubRepository.GetByIdAsync(id);
-            if(clubDetails == null) return View("Error");
+            if (clubDetails == null) return View("Error");
             return View(clubDetails);
         }
 
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteClub(int id)
         {
             var clubDetails = await _clubRepository.GetByIdAsync(id);
-            if(clubDetails==null)return View("Error");
+            if (clubDetails == null) return View("Error");
             _clubRepository.Delete(clubDetails);
             return RedirectToAction("Index");
         }
         public IActionResult Create()
         {
-            return View();
+            var current_userId = _contextAccessor.HttpContext.User.GetUserId();
+            var createClubVM=new CreateClubViewModel
+            {
+                AppUserId= current_userId 
+            };
+            return View(createClubVM);
         }
         [HttpPost]
         public async Task<IActionResult> Create(CreateClubViewModel clubVm)
@@ -63,17 +65,17 @@ namespace WebApplicationMVC.Controllers
                 {
                     Title = clubVm.Title,
                     Description = clubVm.Description,
-                    ClubCategory=clubVm.ClubCategory,
+                    ClubCategory = clubVm.ClubCategory,
+                    AppUserId=clubVm.AppUserId,
                     Image = result.Url.ToString(),
-                    Address= new Address
+                    Address = new Address
                     {
-                        Street= clubVm.Address.Street,
+                        Street = clubVm.Address.Street,
                         City = clubVm.Address.City,
                         State = clubVm.Address.State
                     }
                 };
                 _clubRepository.Add(club);
-       
                 return RedirectToAction("Index");
             }
             else
@@ -85,7 +87,7 @@ namespace WebApplicationMVC.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var club = await _clubRepository.GetByIdAsync(id);
-            if(club==null) return View(null);
+            if (club == null) return View(null);
             var clubVM = new EditClubViewModel
             {
                 Title = club.Title,
@@ -133,14 +135,14 @@ namespace WebApplicationMVC.Controllers
             }
             else
             {
-                    return View(clubVM);
+                return View(clubVM);
             }
         }
-           
 
-         
-       
-           
-       
+
+
+
+
+
     }
 }
