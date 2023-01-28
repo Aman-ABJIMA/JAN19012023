@@ -25,11 +25,25 @@ namespace WebApplicationMVC.Controllers
                     UserName = user.UserName,
                     Pace = user.Pace,
                     Mileage = user.Mileage,
-
+                    ProfileImageUrl= user.ProfileImageUrl,
                 };
                 result.Add(userViewModel);
             }
             return View(result);
+        }
+
+        public async Task<IActionResult> Detail(string id)
+        {
+            var user = await _userRepository.GetUserById(id);
+            var userDetailVM = new UserDetailViewModel()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Mileage = user.Mileage,
+                Pace= user.Pace,
+                
+            };
+            return View(userDetailVM);
         }
     }
 }

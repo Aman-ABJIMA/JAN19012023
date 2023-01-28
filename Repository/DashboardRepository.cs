@@ -1,4 +1,5 @@
-﻿using WebApplicationMVC.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApplicationMVC.Data;
 using WebApplicationMVC.Interface;
 using WebApplicationMVC.Models;
 
@@ -28,6 +29,25 @@ namespace WebApplicationMVC.Repository
             var currentUser = _HttpContextAccessor.HttpContext?.User.GetUserId();
             var userRaces = _context.Races.Where(a => a.AppUser.Id == currentUser);
             return userRaces.ToList();
+        }
+
+        public async Task<AppUser>GetUserById(string id)
+        {
+           return await _context.Users.FindAsync(id);
+        }
+        public async Task<AppUser>GetByIdNoTracking(string id)
+        {
+            return await _context.Users.Where(a=>a.Id == id).AsNoTracking().FirstOrDefaultAsync();
+        }
+        public bool Update(AppUser user)
+        {
+           _context.Users.Update(user);
+            return Save();
+        }
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }

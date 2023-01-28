@@ -22,6 +22,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddTransient<IClubRepository, ClubRepository>();
 builder.Services.AddTransient<IRaceRepository, RaceRepository>();
 builder.Services.AddTransient<IDashboardRepository, DashboardRepository>();
+builder.Services.AddTransient<IUserRepository,UserRepository>();
 builder.Services.Configure<CloudnarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.AddTransient<IPhotoService, PhotoService>();
 var app = builder.Build(); 
